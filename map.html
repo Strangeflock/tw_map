@@ -1,3 +1,380 @@
+<style>
+    .cls-1 {
+        fill: #00b1da;
+ }
+
+.cls-2 {
+    fill: #1a3142;
+}
+.popover {
+    position: absolute;
+    height: auto;
+    padding: 20px 20px;
+    border-radius: 20px;
+    background: black;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    color: white;
+    font-family: Montserrat, sans-serif;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.row1 {
+    align-items: center;
+    justify-content: space-between;
+}
+.row2 {
+    padding-top: 20px;
+}
+.column {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: Montserrat, sans-serif;
+    justify-content: flex-start;
+}
+
+.column-location {
+    font-family: Montserrat, sans-serif;
+    color: #00b1da;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    width: auto;
+}
+.col-temp {
+    width: 50% !important;
+    display: flex;
+    align-items: flex-end;
+}
+.col-temp p {
+    width: auto;
+    color: #315c79;
+    font-weight: 500;
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+.col-temp p span {
+    font-weight: bold;
+}
+.pin {
+    cursor: pointer;
+    transition: 0.2s all ease-in;
+}
+.icon {
+    max-height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+.popup_title {
+    font-size: 40px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0px 0px;
+    margin-top: 10px;
+    color: white;
+}
+.popup_legend {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+.popup_legend2 {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: #36444b;
+    font-size: 15px;
+    margin-top: 10px;
+    color: white;
+}
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        const locations = {
+            1: {
+                location: "Atlanta",
+                mPUE: 1.108,
+                freeCooling: "73%",
+                annualAvg: "63",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            2: {
+                location: "Phoenix",
+                mPUE: 1.154,
+                freeCooling: "50%",
+                annualAvg: "76",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            3: {
+                location: "Chicago",
+                mPUE: 1.086,
+                freeCooling: "85%",
+                annualAvg: "50",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            4: {
+                location: "Madrid",
+                mPUE: 1.075,
+                freeCooling: "75%",
+                annualAvg: "62",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            5: {
+                location: "Mexico City",
+                mPUE: "",
+                freeCooling: "76%",
+                annualAvg: "57",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+
+            6: {
+                location: "Lima",
+                mPUE: "",
+                freeCooling: "65%",
+                annualAvg: "71",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            7: {
+                location: "Rio de Janeiro",
+                mPUE: "",
+                freeCooling: "47%",
+                annualAvg: "80",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            8: {
+                location: "Buenos Aires",
+                mPUE: "",
+                freeCooling: "72%",
+                annualAvg: "64",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+
+            9: {
+                location: "London",
+                mPUE: "",
+                freeCooling: "90%",
+                annualAvg: "51",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            10: {
+                location: "Paris",
+                mPUE: "",
+                freeCooling: "85%",
+                annualAvg: "53",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+
+            11: {
+                location: "Berlin",
+                mPUE: "",
+                freeCooling: "87%",
+                annualAvg: "51",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            12: {
+                location: "Rome",
+                mPUE: "",
+                freeCooling: "74%",
+                annualAvg: "62",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            13: {
+                location: "Frankfurt",
+                mPUE: "",
+                freeCooling: "86%",
+                annualAvg: "51",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            14: {
+                location: "Accra",
+                mPUE: "",
+                freeCooling: "38%",
+                annualAvg: "80",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            15: {
+                location: "Amsterdam",
+                mPUE: "",
+                freeCooling: "90%",
+                annualAvg: "51",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            16: {
+                location: "Lagos, Nigeria",
+                mPUE: "",
+                freeCooling: "35%",
+                annualAvg: "82",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            17: {
+                location: "Johannesburg",
+                mPUE: "",
+                freeCooling: "80%",
+                annualAvg: "64",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            18: {
+                location: "Abu Dhabi",
+                mPUE: "",
+                freeCooling: "30%",
+                annualAvg: "84",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            19: {
+                location: "Nairobi, Kenya",
+                mPUE: "",
+                freeCooling: "70%",
+                annualAvg: "68",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            20: {
+                location: "Sydney",
+                mPUE: 1.045,
+                freeCooling: "76%",
+                annualAvg: "66",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            21: {
+                location: "Singapore",
+                mPUE: 1.125,
+                freeCooling: "38%",
+                annualAvg: "82",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            22: {
+                location: "Jakarta",
+                mPUE: 1.127,
+                freeCooling: "35%",
+                annualAvg: "82",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            23: {
+                location: "Seoul",
+                mPUE: "",
+                freeCooling: "79%",
+                annualAvg: "55",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            24: {
+                location: "Tokyo",
+                mPUE: "",
+                freeCooling: "72%",
+                annualAvg: "62",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            25: {
+                location: "Toronto",
+                mPUE: "",
+                freeCooling: "86%",
+                annualAvg: "48",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+            26: {
+                location: "Mumbai",
+                mPUE: 1.125,
+                freeCooling: "35%",
+                annualAvg: "82",
+                WUE: "0.0",
+                popoverPosition: "bottom",
+            },
+        };
+
+        const pins = document.querySelectorAll(".pin");
+        pins.forEach((element) => {
+            element.addEventListener("mouseover", function (e) {
+                element.setAttributeNS(null, "r", 12);
+                const map = document.getElementById("map");
+                map.insertAdjacentHTML(
+                    "beforeend",
+                    '<div id="popover-' +
+                        element.id +
+                        '" class="popover" style="left:' +
+                        (e.offsetX + 20) +
+                        "px; top:" +
+                        e.offsetY +
+                        "px" +
+                        '"><div class="row row1"><div class="column column-location">' +
+                        locations[element.id].location +
+                        '</div><div class="column col-temp"><p>Annual Average <span>' +
+                        locations[element.id].annualAvg +
+                        " °F</span></p></div></div>" +
+                        '<div class="row row2">' +
+                        '<div class="col1 column">' +
+                        '<img src="https://cdn.prod.website-files.com/62f23c1c295fa128efe69c09/673de00928bbeceb500a2631_icon1.png" class="icon"/>' +
+                        '<p class="popup_title">' +
+                        locations[element.id].mPUE +
+                        "</p>" +
+                        '<p class="popup_legend">mPUE</p>' +
+                        '<p class="popup_legend2">(Annualized)</p>' +
+                        "</div>" +
+                        '<div class="col1 column">' +
+                        '<img src="https://cdn.prod.website-files.com/62f23c1c295fa128efe69c09/673de0270faba15b52a5d673_icon2.png" class="icon"/>' +
+                        '<p class="popup_title">' +
+                        locations[element.id].WUE +
+                        "</p>" +
+                        '<p class="popup_legend">WUE</p>' +
+                        '<p class="popup_legend2">(Gallons/kWh)</p>' +
+                        "</div>" +
+                        '<div class="col1 column">' +
+                        '<img src="https://cdn.prod.website-files.com/62f23c1c295fa128efe69c09/673de050d894b356a703d769_ic3.png" class="icon"/>' +
+                        '<p class="popup_title">' +
+                        locations[element.id].freeCooling +
+                        "</p>" +
+                        '<p class="popup_legend">Free Cooling</p>' +
+                        '<p class="popup_legend2">(Annualized hours/year)</p>' +
+                        "</div>",
+                );
+            });
+            element.addEventListener("mouseout", function () {
+                element.setAttributeNS(null, "r", 9);
+                const elem = document.getElementById(
+                    "popover-" + element.id,
+                );
+                // console.log(elem);
+                if (elem != undefined) {
+                    elem.remove();
+                }
+            });
+        });
+    });
+</script>
+
+
 <svg  id="svg_map" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1440.15" height="671.632" viewBox="0 0 1440.15 671.632">
     <g>
         <polygon class="cls-2" points="416.41 286.34 417.05 286.54 418.36 286.63 419.4 286.45 420.29 286.03 423.34 284.93 423.23 283.72 422.51 283.44 421.87 283.36 421.09 282.78 420.99 282.59 420.37 281.91 419.66 281.58 417.35 281.64 417.25 281.62 417.44 281.25 417.44 280.67 417.06 279.96 416.3 279.76 415.69 279.89 415.3 279.89 414.65 279.66 414.44 279.5 413.97 279.31 413.46 279.28 413.02 279.11 412.13 278.39 411.11 277.73 411.1 277.73 411.1 277.73 411 277.54 410.3 277.36 410.21 277.33 409.58 277.01 409.37 275.91 408.98 275.42 407.93 274.75 407.93 274.75 406.21 273.6 404.51 273.52 404.47 273.52 404.47 273.52 404.47 273.52 404.47 274.2 404.24 274.05 402.56 274.11 402.09 273.95 401.4 273.38 401.13 272.94 399.9 271.88 399.26 271.54 397.67 271.59 397.46 271.5 396.82 270.97 395.82 271.04 394.43 270.99 392.98 270.71 389.75 270.76 388.66 271.11 385.85 271.78 384.57 272.4 384.36 272.45 382.92 273.14 381.86 273.88 381.55 274.5 381.55 275.93 381.01 275.98 379.7 276.8 379.7 277.77 381.21 277.7 381.29 278.13 381.99 278.13 383.12 277.24 384.05 277.02 384.61 276.26 385.02 276.1 385.98 276.01 387.1 275.65 387.64 274.9 388.19 274.32 388.73 273.98 389.28 273.93 391.79 274.2 391.82 274.23 390.77 274.5 390.77 275.23 391.04 275.78 391.39 276.12 392.22 276.38 393.14 276.44 393.25 276.56 394.03 276.81 394.62 276.74 395.05 276.57 395.55 276.75 397.3 276.85 397.79 277.1 398.6 277.84 399.9 278.48 401.35 278.79 401.61 278.93 402.3 279.04 403.45 278.98 404.6 279.13 404.89 279.49 405.02 280.11 405.43 281.1 405.99 281.79 406.69 282.3 407.22 282.85 409.62 283.03 410.74 283.4 410.96 283.52 410.15 283.93 409.32 284.45 408.52 285.19 408.08 285.75 408.35 286.52 408.91 286.71 409.72 286.74 410.73 286.45 412.4 286.23 415.71 286.29 416.41 286.34"/>
